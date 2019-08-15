@@ -34,4 +34,24 @@ public class Movie extends AbstractEntity {
     @OneToMany(targetEntity = MovieProducer.class, mappedBy = "movie", fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<MovieProducer> producers;
 
+    /**
+     *
+     */
+    @EqualsAndHashCode.Exclude
+    @OneToMany(targetEntity = Indication.class, mappedBy = "movie", fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<Indication> indications;
+
+    /**
+     *
+     */
+    public Movie() {
+    }
+
+    /**
+     *
+     * @param title String
+     */
+    public Movie(@NotNull String title) {
+        this.title = title;
+    }
 }

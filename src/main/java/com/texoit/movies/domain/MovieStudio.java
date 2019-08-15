@@ -4,19 +4,21 @@ import com.texoit.movies.domain.generic.AbstractEntity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 
 @Data
 @Entity
 @EqualsAndHashCode(callSuper = true)
+@Table(uniqueConstraints = {
+        @UniqueConstraint(columnNames = {"movie_id", "studio_id"}),
+})
 public class MovieStudio extends AbstractEntity {
 
     /**
      *
      */
+    @NotNull
     @ManyToOne(optional = false)
     @JoinColumn(name = "movie_id")
     private Movie movie;
@@ -24,6 +26,7 @@ public class MovieStudio extends AbstractEntity {
     /**
      *
      */
+    @NotNull
     @ManyToOne(optional = false, cascade = CascadeType.PERSIST)
     @JoinColumn(name = "studio_id")
     private Studio studio;
@@ -35,11 +38,17 @@ public class MovieStudio extends AbstractEntity {
     }
 
     /**
-     *
-     * @param movie {Movie}
+     * @param id Long
+     */
+    public MovieStudio(Long id) {
+        super(id);
+    }
+
+    /**
+     * @param movie  {Movie}
      * @param studio {Studio}
      */
-    public MovieStudio(final Movie movie, final Studio studio) {
+    public MovieStudio(final @NotNull Movie movie, final @NotNull Studio studio) {
         this.movie = movie;
         this.studio = studio;
     }

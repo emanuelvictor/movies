@@ -9,9 +9,9 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.texoit</groupId>
-	<artifactId>films</artifactId>
+	<artifactId>movies</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>films</name>
+	<name>movies</name>
 	<description>Demo project for Spring Boot</description>
 
 	<properties>

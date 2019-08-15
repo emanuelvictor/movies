@@ -5,6 +5,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;
 
-public interface IStudioRespository extends JpaRepository<Studio, Long> {
+public interface IStudioRepository extends JpaRepository<Studio, Long> {
     Optional<Studio> findByName(final String name);
 }

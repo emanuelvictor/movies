@@ -4,19 +4,21 @@ import com.texoit.movies.domain.generic.AbstractEntity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 
 @Data
 @Entity
 @EqualsAndHashCode(callSuper = true)
+@Table(uniqueConstraints = {
+        @UniqueConstraint(columnNames = {"movie_id", "producer_id"}),
+})
 public class MovieProducer extends AbstractEntity {
 
     /**
      *
      */
+    @NotNull
     @ManyToOne(optional = false)
     @JoinColumn(name = "movie_id")
     private Movie movie;
@@ -24,6 +26,7 @@ public class MovieProducer extends AbstractEntity {
     /**
      *
      */
+    @NotNull
     @ManyToOne(optional = false, cascade = CascadeType.PERSIST)
     @JoinColumn(name = "producer_id")
     private Producer producer;
@@ -36,10 +39,18 @@ public class MovieProducer extends AbstractEntity {
 
     /**
      *
+     * @param id Long
+     */
+    public MovieProducer(Long id) {
+        super(id);
+    }
+
+    /**
+     *
      * @param movie {Movie}
      * @param producer {Producer}
      */
-    public MovieProducer(final Movie movie, final Producer producer) {
+    public MovieProducer(final @NotNull Movie movie, final @NotNull Producer producer) {
         this.movie = movie;
         this.producer = producer;
     }
