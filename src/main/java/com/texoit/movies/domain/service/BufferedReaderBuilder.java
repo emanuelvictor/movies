@@ -1,4 +1,4 @@
-package com.texoit.movies.service;
+package com.texoit.movies.domain.service;
 
 import lombok.Getter;
 

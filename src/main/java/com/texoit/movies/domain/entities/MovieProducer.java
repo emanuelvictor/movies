@@ -1,6 +1,5 @@
-package com.texoit.movies.domain;
+package com.texoit.movies.domain.entities;
 
-import com.texoit.movies.domain.generic.AbstractEntity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -11,9 +10,9 @@ import javax.validation.constraints.NotNull;
 @Entity
 @EqualsAndHashCode(callSuper = true)
 @Table(uniqueConstraints = {
-        @UniqueConstraint(columnNames = {"movie_id", "studio_id"}),
+        @UniqueConstraint(columnNames = {"movie_id", "producer_id"}),
 })
-public class MovieStudio extends AbstractEntity {
+public class MovieProducer extends AbstractEntity {
 
     /**
      *
@@ -28,28 +27,29 @@ public class MovieStudio extends AbstractEntity {
      */
     @NotNull
     @ManyToOne(optional = false, cascade = CascadeType.PERSIST)
-    @JoinColumn(name = "studio_id")
-    private Studio studio;
+    @JoinColumn(name = "producer_id")
+    private Producer producer;
 
     /**
      *
      */
-    public MovieStudio() {
+    public MovieProducer() {
     }
 
     /**
      * @param id Long
      */
-    public MovieStudio(Long id) {
+    public MovieProducer(Long id) {
         super(id);
     }
 
     /**
-     * @param movie  {Movie}
-     * @param studio {Studio}
+     * @param movie    {Movie}
+     * @param producer {Producer}
      */
-    public MovieStudio(final @NotNull Movie movie, final @NotNull Studio studio) {
+    public MovieProducer(final @NotNull Movie movie, final @NotNull Producer producer) {
         this.movie = movie;
-        this.studio = studio;
+        this.producer = producer;
     }
+
 }

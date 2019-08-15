@@ -1,7 +1,7 @@
-package com.texoit.movies.service;
+package com.texoit.movies.domain.service;
 
-import com.texoit.movies.domain.*;
-import com.texoit.movies.repository.*;
+import com.texoit.movies.domain.entities.*;
+import com.texoit.movies.domain.repository.*;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
@@ -12,7 +12,10 @@ import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -22,7 +25,7 @@ import java.util.stream.Stream;
 public class ImportService implements ApplicationListener<ApplicationReadyEvent> {
 
     static String COLUMN_DIVISOR = ";";
-    private static String INNER_DIVISOR = ";";
+    private static String INNER_DIVISOR = ",";
 
     static String DEFAULT_NAME_OF_THE_PREMIUM = "Golden Raspberry Awards";
 
@@ -59,7 +62,7 @@ public class ImportService implements ApplicationListener<ApplicationReadyEvent>
      */
     @Async
     public void importt() {
-        final Stream<String> lines = new BufferedReaderBuilder().path(PATH_CSV_FILE).build().lines().stream();
+        final Stream<String> lines =  new BufferedReaderBuilder().path(PATH_CSV_FILE).build().lines().stream();
 
         lines.forEach(line -> {
             final String[] columns = line.split(COLUMN_DIVISOR);

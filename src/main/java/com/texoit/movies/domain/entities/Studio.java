@@ -1,6 +1,5 @@
-package com.texoit.movies.domain;
+package com.texoit.movies.domain.entities;
 
-import com.texoit.movies.domain.generic.AbstractEntity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 

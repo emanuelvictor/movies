@@ -1,4 +1,4 @@
-package com.texoit.movies.domain.generic;
+package com.texoit.movies.domain.entities;
 
 import com.fasterxml.jackson.annotation.ObjectIdGenerator;
 import com.fasterxml.jackson.annotation.ObjectIdResolver;

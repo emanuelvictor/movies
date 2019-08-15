@@ -1,6 +1,7 @@
-package com.texoit.movies.domain;
+package com.texoit.movies.domain.entities;
 
-import com.texoit.movies.domain.generic.AbstractEntity;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -11,6 +12,10 @@ import java.util.Set;
 @Data
 @Entity
 @EqualsAndHashCode(callSuper = true)
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class,
+        property = "id",
+        scope = Movie.class,
+        resolver = EntityIdResolver.class)
 public class Movie extends AbstractEntity {
 
     /**

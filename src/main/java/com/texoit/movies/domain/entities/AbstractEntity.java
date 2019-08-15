@@ -1,4 +1,4 @@
-package com.texoit.movies.domain.generic;
+package com.texoit.movies.domain.entities;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;

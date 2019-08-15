@@ -1,6 +1,6 @@
-package com.texoit.movies.repository;
+package com.texoit.movies.domain.repository;
 
-import com.texoit.movies.domain.Studio;
+import com.texoit.movies.domain.entities.Studio;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;
