@@ -33,7 +33,7 @@ public class Producer extends AbstractEntity {
      */
     @EqualsAndHashCode.Exclude
     @OneToMany(targetEntity = MovieProducer.class, mappedBy = "producer", fetch = FetchType.EAGER)
-    private Set<MovieProducer> producers;
+    private Set<MovieProducer> movies;
 
     /**
      *

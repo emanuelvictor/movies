@@ -1,13 +1,12 @@
 package com.texoit.movies.application;
 
-import com.texoit.movies.domain.entities.Producer;
-import com.texoit.movies.domain.repository.IProducerRepository;
+import com.texoit.movies.domain.service.ProducerService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.List;
+import java.util.Set;
 
 @RestController
 @RequestMapping("/producers")
@@ -17,14 +16,14 @@ public class ProducersResource {
     /**
      *
      */
-    private final IProducerRepository producerRepository;
+    private final ProducerService producerService;
 
     /**
      * @return List<Movie>
      */
     @GetMapping
-    public List<Producer> findAll() {
-        return producerRepository.findAll();
+    public Set<ProducerService.Dto> findAll() {
+        return producerService.findAll();
     }
 
 }
