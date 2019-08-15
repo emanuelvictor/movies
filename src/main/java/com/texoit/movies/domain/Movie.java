@@ -48,7 +48,6 @@ public class Movie extends AbstractEntity {
     }
 
     /**
-     *
      * @param title String
      */
     public Movie(@NotNull String title) {

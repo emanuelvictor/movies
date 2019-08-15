@@ -2,78 +2,88 @@ package com.texoit.movies.service;
 
 import com.texoit.movies.domain.*;
 import com.texoit.movies.repository.*;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.ApplicationListener;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.time.Year;
 import java.util.*;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Service
 @Transactional
 @RequiredArgsConstructor
 public class ImportService implements ApplicationListener<ApplicationReadyEvent> {
 
-    private static String COLUMN_DIVISOR = ";";
+    static String COLUMN_DIVISOR = ";";
     private static String INNER_DIVISOR = ";";
 
-    private static String DEFAULT_NAME_OF_THE_PREMIUM = "Premio zoado";
+    static String DEFAULT_NAME_OF_THE_PREMIUM = "Golden Raspberry Awards";
+
+    static String PATH_CSV_FILE = "static/movielist.csv";
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ImportService.class);
 
+    @Getter
     private final IMovieRepository movieRepository;
+    @Getter
     private final IStudioRepository studioRepository;
+    @Getter
     private final IProducerRepository producerRepository;
+    @Getter
     private final IPremiumRepository premiumRepository;
+    @Getter
     private final IIndicationRepository indicationRepository;
 
+    /**
+     * Executado logo após o início da aplicação
+     *
+     * @param applicationReadyEvent ApplicationReadyEvent
+     */
     @Override
-    public void onApplicationEvent(final ApplicationReadyEvent event) {
+    public void onApplicationEvent(final ApplicationReadyEvent applicationReadyEvent) {
 
-        BufferedReader bufferedReader = null;
+        if (Arrays.asList(applicationReadyEvent.getApplicationContext().getEnvironment().getActiveProfiles()).isEmpty())
+            this.importt();
 
-        try {
-            bufferedReader = this.getBufferReaderWithoutFirstLine();
+    }
 
-            String line;
+    /**
+     *
+     */
+    @Async
+    public void importt() {
+        final Stream<String> lines = new BufferedReaderBuilder().path(PATH_CSV_FILE).build().lines().stream();
 
-            while ((line = bufferedReader.readLine()) != null) {
-                final String[] columns = line.split(COLUMN_DIVISOR);
+        lines.forEach(line -> {
+            final String[] columns = line.split(COLUMN_DIVISOR);
 
-                // Set title of the movie
-                final Movie movie = new Movie(columns[1]);
+            // Set title of the movie
+            final Movie movie = new Movie();
 
-                // Extract studios from the columns
-                extractStudiosFromColumns(movie, columns);
+            // Extract title of the movie from the columns
+            extractTitleMovieFromColumns(movie, columns);
 
-                // Extract producers from the columns
-                extractProducersFromColumns(movie, columns);
+            // Extract studios from the columns
+            extractStudiosFromColumns(movie, columns);
 
-                extractPremiumAndIndicationsFromColumns(movie, columns);
+            // Extract producers from the columns
+            extractProducersFromColumns(movie, columns);
 
-                movieRepository.save(movie);
+            // Extract indications from the columns
+            extractPremiumAndIndicationsFromColumns(movie, columns);
 
-            }
+            System.out.println(movie.getTitle());
+            // Save all via cascades
+            this.save(movie);
+        });
 
-        } catch (IOException e) {
-            e.printStackTrace();
-        } finally {
-            if (bufferedReader != null) {
-                try {
-                    bufferedReader.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
 
         int moviesCount = this.movieRepository.findAll().size();
         int studiosCount = this.studioRepository.findAll().size();
@@ -94,7 +104,16 @@ public class ImportService implements ApplicationListener<ApplicationReadyEvent>
      * @param movie   Movie
      * @param columns String[]
      */
-    private void extractStudiosFromColumns(final Movie movie, final String[] columns) {
+    public void extractTitleMovieFromColumns(final Movie movie, final String[] columns) {
+        // Set title of the movie
+        movie.setTitle(columns[1]);
+    }
+
+    /**
+     * @param movie   Movie
+     * @param columns String[]
+     */
+    public void extractStudiosFromColumns(final Movie movie, final String[] columns) {
         final Set<MovieStudio> studios = new HashSet<>();
 
         Arrays.asList(columns[2].split(INNER_DIVISOR)).forEach(studioName -> {
@@ -109,7 +128,7 @@ public class ImportService implements ApplicationListener<ApplicationReadyEvent>
      * @param movie   Movie
      * @param columns String[]
      */
-    private void extractProducersFromColumns(final Movie movie, final String[] columns) {
+    public void extractProducersFromColumns(final Movie movie, final String[] columns) {
         final Set<MovieProducer> producers = new HashSet<>();
 
         Arrays.asList(columns[3].split(INNER_DIVISOR)).forEach(producerName -> {
@@ -124,7 +143,7 @@ public class ImportService implements ApplicationListener<ApplicationReadyEvent>
      * @param movie   Movie
      * @param columns String[]
      */
-    private void extractPremiumAndIndicationsFromColumns(final Movie movie, final String[] columns) {
+    public void extractPremiumAndIndicationsFromColumns(final Movie movie, final String[] columns) {
         final Premium premium = this.premiumRepository.findByNameAndYear(DEFAULT_NAME_OF_THE_PREMIUM, Integer.parseInt(columns[0])).orElse(new Premium(DEFAULT_NAME_OF_THE_PREMIUM, Integer.parseInt(columns[0])));
 
         final Indication indication = new Indication(movie, premium, (columns.length > 4 && columns[4] != null && !columns[4].isEmpty() && columns[4].trim().toLowerCase().equals("yes")) ? true : null);
@@ -133,13 +152,9 @@ public class ImportService implements ApplicationListener<ApplicationReadyEvent>
     }
 
     /**
-     * @return BufferedReader
-     * @throws IOException {}
+     * @param movie Movie
      */
-    private BufferedReader getBufferReaderWithoutFirstLine() throws IOException {
-        final var br = new BufferedReader(new InputStreamReader(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("static/movielist.csv"))));
-        // Pula primeira linha
-        br.readLine();
-        return br;
+    public void save(final Movie movie) {
+        movieRepository.save(movie);
     }
 }

@@ -52,9 +52,9 @@ public class Indication extends AbstractEntity {
     }
 
     /**
-     * @param movie    Movie
+     * @param movie   Movie
      * @param premium Premium
-     * @param winner   boolean
+     * @param winner  boolean
      */
     public Indication(@NotNull final Movie movie, @NotNull final Premium premium, final Boolean winner) {
         this.movie = movie;
@@ -63,10 +63,10 @@ public class Indication extends AbstractEntity {
     }
 
     /**
-     * @param id       Long
-     * @param movie    Movie
+     * @param id      Long
+     * @param movie   Movie
      * @param premium Premium
-     * @param winner   boolean
+     * @param winner  boolean
      */
     public Indication(final Long id, @NotNull final Movie movie, @NotNull final Premium premium, final Boolean winner) {
         super(id);

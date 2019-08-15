@@ -38,7 +38,6 @@ public class MovieProducer extends AbstractEntity {
     }
 
     /**
-     *
      * @param id Long
      */
     public MovieProducer(Long id) {
@@ -46,8 +45,7 @@ public class MovieProducer extends AbstractEntity {
     }
 
     /**
-     *
-     * @param movie {Movie}
+     * @param movie    {Movie}
      * @param producer {Producer}
      */
     public MovieProducer(final @NotNull Movie movie, final @NotNull Producer producer) {

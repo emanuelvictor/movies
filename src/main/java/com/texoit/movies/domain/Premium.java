@@ -9,7 +9,6 @@ import javax.persistence.Entity;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotNull;
-import java.time.Year;
 
 @Data
 @Entity
@@ -47,7 +46,7 @@ public class Premium extends AbstractEntity {
         this.name = name;
         this.year = year;
     }
-    
+
     /**
      * @param id   Long
      * @param name String
