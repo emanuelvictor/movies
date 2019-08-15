@@ -31,7 +31,7 @@ public class ProducerService {
         producers.forEach(producer -> {
             final Dto dto = new Dto(producer.getName());
             producer.getMovies().forEach(movieProducer -> {
-                movieProducer.getMovie().getIndications().forEach(indication -> {
+                movieProducer.getMovie().getIndications().forEach(indication -> { // Colocar um filter aqui
                     if (indication.getWinner() != null && indication.getWinner()) {
                         if (dto.getPreviousWin() == 0) {
                             dto.setPreviousWin(indication.getPremium().getYear());
@@ -42,7 +42,6 @@ public class ProducerService {
                                 dto.setPreviousWin(indication.getPremium().getYear());
                             }
                         }
-
                     }
                 });
                 dtos.add(dto);
@@ -61,7 +60,7 @@ public class ProducerService {
         public Dto() {
         }
 
-        public Dto(String producer) {
+        Dto(String producer) {
             this.producer = producer;
         }
 
