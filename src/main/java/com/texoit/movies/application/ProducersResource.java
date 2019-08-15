@@ -19,7 +19,7 @@ public class ProducersResource {
     private final ProducerService producerService;
 
     /**
-     * @return List<Movie>
+     * @return Set<Movie>
      */
     @GetMapping
     public Set<ProducerService.Dto> findAll() {

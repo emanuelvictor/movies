@@ -24,15 +24,12 @@ import java.util.stream.Stream;
 @RequiredArgsConstructor
 public class ImportService implements ApplicationListener<ApplicationReadyEvent> {
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(ImportService.class);
     static String COLUMN_DIVISOR = ";";
-    private static String INNER_DIVISOR = ",";
-
     static String DEFAULT_NAME_OF_THE_PREMIUM = "Golden Raspberry Awards";
 
     static String PATH_CSV_FILE = "static/movielist.csv";
-
-    private static final Logger LOGGER = LoggerFactory.getLogger(ImportService.class);
-
+    private static String INNER_DIVISOR = ",";
     @Getter
     private final IMovieRepository movieRepository;
     @Getter
@@ -106,7 +103,7 @@ public class ImportService implements ApplicationListener<ApplicationReadyEvent>
      * @param movie   Movie
      * @param columns String[]
      */
-    public void extractTitleMovieFromColumns(final Movie movie, final String[] columns) {
+    void extractTitleMovieFromColumns(final Movie movie, final String[] columns) {
         // Set title of the movie
         movie.setTitle(columns[1]);
     }
@@ -115,7 +112,7 @@ public class ImportService implements ApplicationListener<ApplicationReadyEvent>
      * @param movie   Movie
      * @param columns String[]
      */
-    public void extractStudiosFromColumns(final Movie movie, final String[] columns) {
+    void extractStudiosFromColumns(final Movie movie, final String[] columns) {
         final Set<MovieStudio> studios = new HashSet<>();
 
         Arrays.asList(columns[2].split(INNER_DIVISOR)).forEach(studioName -> {
@@ -137,7 +134,7 @@ public class ImportService implements ApplicationListener<ApplicationReadyEvent>
      * @param movie   Movie
      * @param columns String[]
      */
-    public void extractProducersFromColumns(final Movie movie, final String[] columns) {
+    void extractProducersFromColumns(final Movie movie, final String[] columns) {
         final Set<MovieProducer> producers = new HashSet<>();
 
         Arrays.asList(columns[3].replaceAll(", ", INNER_DIVISOR).split(INNER_DIVISOR)).forEach(producerName -> {
@@ -159,7 +156,7 @@ public class ImportService implements ApplicationListener<ApplicationReadyEvent>
      * @param movie   Movie
      * @param columns String[]
      */
-    public void extractPremiumAndIndicationsFromColumns(final Movie movie, final String[] columns) {
+    void extractPremiumAndIndicationsFromColumns(final Movie movie, final String[] columns) {
         final Premium premium = this.premiumRepository.findByNameAndYear(DEFAULT_NAME_OF_THE_PREMIUM, Integer.parseInt(columns[0])).orElse(new Premium(DEFAULT_NAME_OF_THE_PREMIUM, Integer.parseInt(columns[0])));
 
         final Indication indication = new Indication(movie, premium, (columns.length > 4 && columns[4] != null && !columns[4].isEmpty() && columns[4].trim().toLowerCase().equals("yes")) ? true : null);
@@ -170,7 +167,7 @@ public class ImportService implements ApplicationListener<ApplicationReadyEvent>
     /**
      * @param movie Movie
      */
-    public void save(final Movie movie) {
+    void save(final Movie movie) {
         movieRepository.save(movie);
     }
 }

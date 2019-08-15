@@ -13,7 +13,7 @@ public class EntityIdResolver implements ObjectIdResolver {
     private EntityManager entityManager;
 
     /**
-     * @param entityManager
+     * @param entityManager EntityManager
      */
     public EntityIdResolver(final EntityManager entityManager) {
         this.entityManager = entityManager;

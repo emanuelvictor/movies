@@ -1,21 +1,15 @@
 package com.texoit.movies.domain.service;
 
-import com.texoit.movies.domain.entities.*;
-import com.texoit.movies.domain.repository.*;
+import com.texoit.movies.domain.entities.Producer;
+import com.texoit.movies.domain.repository.IProducerRepository;
 import lombok.Data;
-import lombok.Getter;
 import lombok.RequiredArgsConstructor;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.boot.context.event.ApplicationReadyEvent;
-import org.springframework.context.ApplicationListener;
-import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.*;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 @Service
 @Transactional

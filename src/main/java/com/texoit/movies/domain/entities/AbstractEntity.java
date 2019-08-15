@@ -32,7 +32,7 @@ public abstract class AbstractEntity implements Serializable {
     /**
      *
      */
-    protected AbstractEntity(Long id) {
+    AbstractEntity(Long id) {
         this.id = id;
     }
 }

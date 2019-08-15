@@ -6,8 +6,6 @@ import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.MethodSorters;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
@@ -113,7 +111,7 @@ public class ImportIntegrationTests {
 
         Assert.assertEquals(196, moviesCount);
         Assert.assertEquals(64, studiosCount);
-        Assert.assertEquals(282, producersCount);
+        Assert.assertEquals(332, producersCount);
         Assert.assertEquals(38, premiunsCount);
         Assert.assertEquals(196, indicationsCount);
         Assert.assertEquals(37, winnersCount);
