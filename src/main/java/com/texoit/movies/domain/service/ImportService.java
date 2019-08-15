@@ -62,7 +62,7 @@ public class ImportService implements ApplicationListener<ApplicationReadyEvent>
      */
     @Async
     public void importt() {
-        final Stream<String> lines =  new BufferedReaderBuilder().path(PATH_CSV_FILE).build().lines().stream();
+        final Stream<String> lines = new BufferedReaderBuilder().path(PATH_CSV_FILE).build().lines().stream();
 
         lines.forEach(line -> {
             final String[] columns = line.split(COLUMN_DIVISOR);
@@ -86,7 +86,6 @@ public class ImportService implements ApplicationListener<ApplicationReadyEvent>
             // Save all via cascades
             this.save(movie);
         });
-
 
         int moviesCount = this.movieRepository.findAll().size();
         int studiosCount = this.studioRepository.findAll().size();
@@ -120,8 +119,15 @@ public class ImportService implements ApplicationListener<ApplicationReadyEvent>
         final Set<MovieStudio> studios = new HashSet<>();
 
         Arrays.asList(columns[2].split(INNER_DIVISOR)).forEach(studioName -> {
-            final Studio studio = this.studioRepository.findByName(studioName).orElse(new Studio(studioName));
-            studios.add(new MovieStudio(movie, studio));
+            if (studioName.contains(" and "))
+                Arrays.asList(studioName.split(" and ")).forEach(s -> {
+                    final Studio studio = this.studioRepository.findByName(s).orElse(new Studio(s));
+                    studios.add(new MovieStudio(movie, studio));
+                });
+            else {
+                final Studio studio = this.studioRepository.findByName(studioName).orElse(new Studio(studioName));
+                studios.add(new MovieStudio(movie, studio));
+            }
         });
 
         movie.setStudios(studios);
@@ -134,9 +140,16 @@ public class ImportService implements ApplicationListener<ApplicationReadyEvent>
     public void extractProducersFromColumns(final Movie movie, final String[] columns) {
         final Set<MovieProducer> producers = new HashSet<>();
 
-        Arrays.asList(columns[3].split(INNER_DIVISOR)).forEach(producerName -> {
-            final Producer producer = this.producerRepository.findByName(producerName).orElse(new Producer(producerName));
-            producers.add(new MovieProducer(movie, producer));
+        Arrays.asList(columns[3].replaceAll(", ", INNER_DIVISOR).split(INNER_DIVISOR)).forEach(producerName -> {
+            if (producerName.contains(" and "))
+                Arrays.asList(producerName.split(" and ")).forEach(s -> {
+                    final Producer producer = this.producerRepository.findByName(s).orElse(new Producer(s));
+                    producers.add(new MovieProducer(movie, producer));
+                });
+            else {
+                final Producer producer = this.producerRepository.findByName(producerName).orElse(new Producer(producerName));
+                producers.add(new MovieProducer(movie, producer));
+            }
         });
 
         movie.setProducers(producers);

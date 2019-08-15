@@ -22,22 +22,15 @@ import java.util.stream.Stream;
 @RequiredArgsConstructor
 public class ProducerService {
 
-    private final IMovieRepository movieRepository;
-    private final IStudioRepository studioRepository;
     private final IProducerRepository producerRepository;
-    private final IPremiumRepository premiumRepository;
-    private final IIndicationRepository indicationRepository;
 
     public Set<Dto> findAll() {
         final List<Producer> producers = producerRepository.findAll();
         final Set<Dto> dtos = new HashSet<>();
 
         producers.forEach(producer -> {
-            final Dto dto = new Dto();
+            final Dto dto = new Dto(producer.getName());
             producer.getMovies().forEach(movieProducer -> {
-                if (producer.getName().equals("Kevin Costner"))
-                    System.out.println(producer.getName());
-                dto.setProducer(producer.getName());
                 movieProducer.getMovie().getIndications().forEach(indication -> {
                     if (indication.getWinner() != null && indication.getWinner()) {
                         if (dto.getPreviousWin() == 0) {
@@ -48,14 +41,11 @@ public class ProducerService {
                                     dto.setFollowingWin(dto.getPreviousWin());
                                 dto.setPreviousWin(indication.getPremium().getYear());
                             }
-//                            else
-//                                dto.setFollowingWin(indication.getPremium().getYear());
                         }
 
                     }
                 });
-                if (dto.getFollowingWin() > 0)
-                    dtos.add(dto);
+                dtos.add(dto);
             });
         });
 
@@ -67,6 +57,13 @@ public class ProducerService {
         private String producer;
         private int previousWin = 0;
         private int followingWin = 0;
+
+        public Dto() {
+        }
+
+        public Dto(String producer) {
+            this.producer = producer;
+        }
 
         public int getInterval() {
             return followingWin - previousWin;
