@@ -1,5 +1,6 @@
-package com.texoit.movies.application;
+package com.texoit.movies.application.resource;
 
+import com.texoit.movies.domain.entities.dto.ProducerDto;
 import com.texoit.movies.domain.service.ProducerService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,10 +20,10 @@ public class ProducersResource {
     private final ProducerService producerService;
 
     /**
-     * @return Set<Movie>
+     * @return ProducerService.ProducerDto.Dto
      */
     @GetMapping
-    public Set<ProducerService.Dto> findAll() {
+    public ProducerDto.Dto findAll() {
         return producerService.findAll();
     }
 

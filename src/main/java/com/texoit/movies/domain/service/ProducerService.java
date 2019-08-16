@@ -1,14 +1,15 @@
 package com.texoit.movies.domain.service;
 
 import com.texoit.movies.domain.entities.Producer;
+import com.texoit.movies.domain.entities.dto.ProducerDto;
 import com.texoit.movies.domain.repository.IProducerRepository;
-import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashSet;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 @Service
@@ -18,48 +19,34 @@ public class ProducerService {
 
     private final IProducerRepository producerRepository;
 
-    public Set<Dto> findAll() {
+    public ProducerDto.Dto findAll() {
         final List<Producer> producers = producerRepository.findAll();
-        final Set<Dto> dtos = new HashSet<>();
+        final Set<ProducerDto> producerDtos = new HashSet<>();
 
         producers.forEach(producer -> {
-            final Dto dto = new Dto(producer.getName());
+            final ProducerDto producerDto = new ProducerDto(producer.getName());
             producer.getMovies().forEach(movieProducer -> {
-                movieProducer.getMovie().getIndications().forEach(indication -> { // Colocar um filter aqui
-                    if (indication.getWinner() != null && indication.getWinner()) {
-                        if (dto.getPreviousWin() == 0) {
-                            dto.setPreviousWin(indication.getPremium().getYear());
-                        } else {
-                            if (indication.getPremium().getYear() <= dto.getPreviousWin()) {
-                                if (dto.getPreviousWin() >= dto.getFollowingWin())
-                                    dto.setFollowingWin(dto.getPreviousWin());
-                                dto.setPreviousWin(indication.getPremium().getYear());
-                            }
-                        }
+                movieProducer.getMovie().getIndications().stream().filter(indication -> Optional.ofNullable(indication.getWinner()).orElse(false)).forEach(indication -> { // Colocar um filter aqui
+                    if (producerDto.getPreviousWin() == 0)
+                        producerDto.setPreviousWin(indication.getPremium().getYear());
+                    else if (indication.getPremium().getYear() <= producerDto.getPreviousWin()) {
+                        if (producerDto.getPreviousWin() >= producerDto.getFollowingWin())
+                            producerDto.setFollowingWin(producerDto.getPreviousWin());
+                        producerDto.setPreviousWin(indication.getPremium().getYear());
                     }
                 });
-                dtos.add(dto);
+                producerDtos.add(producerDto);
             });
         });
+//producerDtos.stream().max((o1, o2) -> o1.getInterval() > o2.getInterval())
+        final ProducerDto.Dto dto = new ProducerDto.Dto();
+        dto.getMin().add(producerDtos.stream().findFirst().get());
+        dto.getMax().add(producerDtos.stream().findFirst().get());
 
-        return dtos;
+        return dto;
     }
 
-    @Data
-    public static class Dto {
-        private String producer;
-        private int previousWin = 0;
-        private int followingWin = 0;
 
-        public Dto() {
-        }
 
-        Dto(String producer) {
-            this.producer = producer;
-        }
 
-        public int getInterval() {
-            return followingWin - previousWin;
-        }
-    }
 }

@@ -1,4 +1,4 @@
-package com.texoit.movies.domain.service;
+package com.texoit.movies.application.builder;
 
 import lombok.Getter;
 
@@ -9,14 +9,14 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-class BufferedReaderBuilder {
+public class BufferedReaderBuilder {
 
     @Getter
     private BufferedReader bufferedReader = null;
 
     private List<String> lines;
 
-    BufferedReaderBuilder path(final String path) {
+    public BufferedReaderBuilder path(final String path) {
         try {
             this.bufferedReader = this.getBufferReaderWithoutFirstLine(path);
             return this;
@@ -26,12 +26,12 @@ class BufferedReaderBuilder {
         }
     }
 
-    BufferedReaderBuilder build() {
+    public BufferedReaderBuilder build() {
         this.lines = this.bufferedReader.lines().collect(Collectors.toList());
         return this;
     }
 
-    List<String> lines() {
+    public List<String> lines() {
         return this.lines;
     }
 

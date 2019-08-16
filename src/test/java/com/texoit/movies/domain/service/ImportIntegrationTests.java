@@ -1,5 +1,6 @@
 package com.texoit.movies.domain.service;
 
+import com.texoit.movies.application.builder.BufferedReaderBuilder;
 import com.texoit.movies.domain.entities.Movie;
 import org.junit.Assert;
 import org.junit.FixMethodOrder;
