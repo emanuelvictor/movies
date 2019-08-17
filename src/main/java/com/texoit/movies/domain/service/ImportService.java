@@ -162,7 +162,7 @@ public class ImportService implements ApplicationListener<ApplicationReadyEvent>
 
         final Indication indication = new Indication(movie, premium, (columns.length > 4 && columns[4] != null && !columns[4].isEmpty() && columns[4].trim().toLowerCase().equals("yes")) ? true : null);
 
-        movie.setIndications(Set.of(indication));
+        movie.setIndications(Arrays.asList(indication));
     }
 
     /**

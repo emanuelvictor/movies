@@ -10,6 +10,7 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.OneToMany;
 import javax.validation.constraints.NotNull;
+import java.util.List;
 import java.util.Set;
 
 @Data
@@ -33,7 +34,7 @@ public class Producer extends AbstractEntity {
      */
     @EqualsAndHashCode.Exclude
     @OneToMany(targetEntity = MovieProducer.class, mappedBy = "producer", fetch = FetchType.EAGER)
-    private Set<MovieProducer> movies;
+    private List<MovieProducer> movies;
 
     /**
      *

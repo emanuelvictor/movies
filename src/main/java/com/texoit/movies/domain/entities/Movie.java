@@ -7,6 +7,7 @@ import lombok.EqualsAndHashCode;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.util.List;
 import java.util.Set;
 
 @Data
@@ -42,10 +43,9 @@ public class Movie extends AbstractEntity {
     /**
      *
      */
-    @OrderBy("premium DESC")
     @EqualsAndHashCode.Exclude
     @OneToMany(targetEntity = Indication.class, mappedBy = "movie", fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
-    private Set<Indication> indications;
+    private List<Indication> indications;
 
     /**
      *

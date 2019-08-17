@@ -23,7 +23,7 @@ public class ProducersResource {
      * @return ProducerService.ProducerDto.Dto
      */
     @GetMapping
-    public ProducerDto.Dto findAll() {
+    public Set<ProducerDto> findAll() {
         return producerService.findAll();
     }
 

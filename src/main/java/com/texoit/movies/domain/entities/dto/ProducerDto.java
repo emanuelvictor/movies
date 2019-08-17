@@ -17,6 +17,12 @@ public class ProducerDto {
         this.producer = producer;
     }
 
+    public ProducerDto(String producer, int previousWin, int followingWin) {
+        this.producer = producer;
+        this.previousWin = previousWin;
+        this.followingWin = followingWin;
+    }
+
     public int getInterval() {
         return followingWin - previousWin;
     }
