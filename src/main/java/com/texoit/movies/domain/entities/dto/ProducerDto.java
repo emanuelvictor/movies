@@ -29,7 +29,7 @@ public class ProducerDto {
 
     @Data
     @NoArgsConstructor
-    public static class Dto {
+    public static class WrapperDto {
         private Set<ProducerDto> min = new HashSet<>();
         private Set<ProducerDto> max = new HashSet<>();
     }

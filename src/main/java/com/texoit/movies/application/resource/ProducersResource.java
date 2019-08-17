@@ -20,10 +20,10 @@ public class ProducersResource {
     private final ProducerService producerService;
 
     /**
-     * @return ProducerService.ProducerDto.Dto
+     * @return ProducerService.ProducerDto.WrapperDto
      */
     @GetMapping
-    public Set<ProducerDto> findAll() {
+    public ProducerDto.WrapperDto findAll() {
         return producerService.findAll();
     }
 

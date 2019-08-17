@@ -43,7 +43,7 @@
 //
 //    @Test
 //    public void givenMockingIsDoneByMockRestServiceServer_whenGetIsCalled_thenReturnsMockedObject()() {
-//        ProducerService.Dto emp = new ProducerService.Dto();
+//        ProducerService.WrapperDto emp = new ProducerService.WrapperDto();
 //        mockServer.expect(ExpectedCount.once(),
 //                requestTo(new URI("http://localhost:8080/producer")))
 //                .andExpect(method(HttpMethod.GET))
@@ -52,7 +52,7 @@
 //                        .body(mapper.writeValueAsString(emp))
 //                );
 //
-//        ProducerService.Dto dto = producerService.findAll();
+//        ProducerService.WrapperDto dto = producerService.findAll();
 //        mockServer.verify();
 //        Assert.assertEquals(emp, dto);
 //    }

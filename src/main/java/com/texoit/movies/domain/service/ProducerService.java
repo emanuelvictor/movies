@@ -20,32 +20,10 @@ public class ProducerService {
 
     private final IProducerRepository producerRepository;
 
-    public Set<ProducerDto> findAll() {
+    public ProducerDto.WrapperDto findAll() {
         final List<Producer> producers = producerRepository.findAll();
         final Set<ProducerDto> producerDtos = new HashSet<>();
 
-
-//        producers.forEach(producer -> {
-//            final ProducerDto producerMaxDto = new ProducerDto(producer.getName());
-//            producer.getMovies().forEach(movieProducer -> {
-//                movieProducer.getMovie().getIndications().forEach(indication -> { // Colocar um filter aqui
-//                    if (indication.getWinner() != null && indication.getWinner()) {
-//                        if (producerMaxDto.getPreviousWin() == 0) {
-//                            producerMaxDto.setPreviousWin(indication.getPremium().getYear());
-//                        } else {
-//                            if (indication.getPremium().getYear() <= producerMaxDto.getPreviousWin()) {
-//                                if (producerMaxDto.getPreviousWin() >= producerMaxDto.getFollowingWin())
-//                                    producerMaxDto.setFollowingWin(producerMaxDto.getPreviousWin());
-//                                producerMaxDto.setPreviousWin(indication.getPremium().getYear());
-//                            }
-//                        }
-//                    }
-//                });
-//                if (producerMaxDto.getProducer().equals("Kevin Costner")) {
-//                    producerDtos.add(producerMaxDto);
-//                }
-//            });
-//        });
 
         producers.forEach(producer -> {
             final List<MovieProducer> movieProducers = producer.getMovies().stream()
@@ -75,12 +53,11 @@ public class ProducerService {
         });
 
 
-////producerDtos.stream().max((o1, o2) -> o1.getInterval() > o2.getInterval())
-//        final ProducerDto.Dto dto = new ProducerDto.Dto();
-//        dto.getMin().add(producerDtos.stream().findFirst().get());
-//        dto.getMax().add(producerDtos.stream().findFirst().get());
+        final ProducerDto.WrapperDto dto = new ProducerDto.WrapperDto();
+        dto.getMin().add(producerDtos.stream().sorted(Comparator.comparingInt(ProducerDto::getInterval)).collect(Collectors.toList()).get(0));
+        dto.getMax().add(producerDtos.stream().sorted(Comparator.comparingInt(ProducerDto::getInterval)).collect(Collectors.toList()).get(producerDtos.size() - 1));
 
-        return producerDtos;
+        return dto;
     }
 
 
