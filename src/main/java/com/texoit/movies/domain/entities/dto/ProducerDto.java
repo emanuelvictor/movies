@@ -13,11 +13,7 @@ public class ProducerDto {
     private int previousWin = 0;
     private int followingWin = 0;
 
-    public ProducerDto(String producer) {
-        this.producer = producer;
-    }
-
-    public ProducerDto(String producer, int previousWin, int followingWin) {
+    public ProducerDto(final String producer, final int previousWin, final int followingWin) {
         this.producer = producer;
         this.previousWin = previousWin;
         this.followingWin = followingWin;
@@ -32,5 +28,10 @@ public class ProducerDto {
     public static class WrapperDto {
         private Set<ProducerDto> min = new HashSet<>();
         private Set<ProducerDto> max = new HashSet<>();
+
+        public WrapperDto(final ProducerDto min, final ProducerDto max) {
+            this.min.add(min);
+            this.max.add(max);
+        }
     }
 }
