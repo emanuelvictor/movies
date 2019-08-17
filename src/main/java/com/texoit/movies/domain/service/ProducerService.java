@@ -26,6 +26,7 @@ public class ProducerService {
         final Set<ProducerDto> producerDtos = new HashSet<>();
 
         producers.forEach(producer -> {
+
             final List<MovieProducer> movieProducers = producer.getMovies().stream()
                     .filter(movieProducer ->
                             !movieProducer.getMovie().getIndications().isEmpty() && movieProducer.getMovie().getIndications().get(0).getWinner() != null && movieProducer.getMovie().getIndications().get(0).getWinner()

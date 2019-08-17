@@ -40,9 +40,9 @@ public class BufferedReaderBuilder {
      * @throws IOException {}
      */
     private BufferedReader getBufferReaderWithoutFirstLine(final String path) throws IOException {
-        final var br = new BufferedReader(new InputStreamReader(Optional.ofNullable(getClass().getClassLoader().getResourceAsStream(path)).orElseThrow()));
+        final BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(Optional.ofNullable(getClass().getClassLoader().getResourceAsStream(path)).orElseThrow()));
         // Pula primeira linha
-        br.readLine();
-        return br;
+        bufferedReader.readLine();
+        return bufferedReader;
     }
 }
