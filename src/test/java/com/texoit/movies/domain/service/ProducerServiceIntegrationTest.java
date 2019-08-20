@@ -40,7 +40,7 @@ public class ProducerServiceIntegrationTest {
     @Test
     public void getProducersFromServiceMustPass() {
 
-        final ProducerDto.WrapperDto testWrapperDto = new ProducerDto.WrapperDto(new ProducerDto("Kevin Costner", 1994, 1995), new ProducerDto("Allan Carr", 1980, 2017));
+        final ProducerDto.WrapperDto testWrapperDto = new ProducerDto.WrapperDto(new ProducerDto("Joel Silver", 1990, 1991), new ProducerDto("Matthew Vaughn", 2002, 2015));
 
         Assert.assertEquals(testWrapperDto,  producerService.findAll());
     }
@@ -48,7 +48,7 @@ public class ProducerServiceIntegrationTest {
     @Test
     public void getProducersFromWebServiceMustPass() {
 
-        final ProducerDto.WrapperDto testWrapperDto = new ProducerDto.WrapperDto(new ProducerDto("Kevin Costner", 1994, 1995), new ProducerDto("Allan Carr", 1980, 2017));
+        final ProducerDto.WrapperDto testWrapperDto = new ProducerDto.WrapperDto(new ProducerDto("Joel Silver", 1990, 1991), new ProducerDto("Matthew Vaughn", 2002, 2015));
 
         Mockito.when(restTemplate.getForEntity("http://localhost:8080/producers", ProducerDto.WrapperDto.class)).thenReturn(new ResponseEntity<>(testWrapperDto, HttpStatus.OK));
 

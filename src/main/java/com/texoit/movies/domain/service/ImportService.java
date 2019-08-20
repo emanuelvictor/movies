@@ -80,7 +80,6 @@ public class ImportService implements ApplicationListener<ApplicationReadyEvent>
             // Extract indications from the columns
             extractPremiumAndIndicationsFromColumns(movie, columns);
 
-            System.out.println(movie.getTitle());
             // Save all via cascades
             this.save(movie);
         });

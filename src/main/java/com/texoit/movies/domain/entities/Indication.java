@@ -10,8 +10,7 @@ import javax.validation.constraints.NotNull;
 @Entity
 @EqualsAndHashCode(callSuper = true)
 @Table(uniqueConstraints = {
-        @UniqueConstraint(columnNames = {"movie_id", "premium_id"}),
-        @UniqueConstraint(columnNames = {"winner", "premium_id"})
+        @UniqueConstraint(columnNames = {"movie_id", "premium_id"})
 })
 public class Indication extends AbstractEntity {
 

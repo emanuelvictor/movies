@@ -115,7 +115,7 @@ public class ImportIntegrationTests {
         Assert.assertEquals(332, producersCount);
         Assert.assertEquals(38, premiunsCount);
         Assert.assertEquals(196, indicationsCount);
-        Assert.assertEquals(37, winnersCount);
+        Assert.assertEquals(40, winnersCount);
 
     }
 }
