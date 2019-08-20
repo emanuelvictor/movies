@@ -1,5 +1,6 @@
 package com.texoit.movies.domain.service;
 
+import com.texoit.movies.domain.AbstractIntegrationTests;
 import com.texoit.movies.domain.entities.dto.ProducerDto;
 import org.junit.Assert;
 import org.junit.Before;
@@ -17,19 +18,16 @@ import org.springframework.web.client.RestTemplate;
 
 import java.util.Set;
 
-@RunWith(SpringRunner.class)
-@ActiveProfiles("test")
-@SpringBootTest
-public class ProducerServiceIntegrationTest {
+public class ProducerServiceIntegrationTests extends AbstractIntegrationTests {
 
     @Mock
     private RestTemplate restTemplate;
 
     @Autowired
-    private ProducerService producerService;
+    private ImportService importService;
 
     @Autowired
-    private ImportService importService;
+    private ProducerService producerService;
 
     @Before
     public void init() {

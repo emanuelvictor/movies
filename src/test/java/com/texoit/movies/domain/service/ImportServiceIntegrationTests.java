@@ -1,6 +1,7 @@
 package com.texoit.movies.domain.service;
 
 import com.texoit.movies.application.builder.BufferedReaderBuilder;
+import com.texoit.movies.domain.AbstractIntegrationTests;
 import com.texoit.movies.domain.entities.Movie;
 import org.junit.Assert;
 import org.junit.FixMethodOrder;
@@ -18,11 +19,7 @@ import java.util.stream.Collectors;
 import static com.texoit.movies.domain.service.ImportService.*;
 
 
-@SpringBootTest
-@ActiveProfiles("test")
-@RunWith(SpringRunner.class)
-@FixMethodOrder(MethodSorters.JVM)
-public class ImportIntegrationTests {
+public class ImportServiceIntegrationTests extends AbstractIntegrationTests {
 
     @Autowired
     private ImportService importService;
@@ -31,7 +28,7 @@ public class ImportIntegrationTests {
 
     private final BufferedReaderBuilder bufferedReaderBuilder;
 
-    public ImportIntegrationTests() {
+    public ImportServiceIntegrationTests() {
         bufferedReaderBuilder = new BufferedReaderBuilder().path(PATH_CSV_FILE).build();
     }
 
@@ -116,6 +113,8 @@ public class ImportIntegrationTests {
         Assert.assertEquals(38, premiunsCount);
         Assert.assertEquals(196, indicationsCount);
         Assert.assertEquals(40, winnersCount);
+
+        importService.getMovieRepository().deleteAll();
 
     }
 }
