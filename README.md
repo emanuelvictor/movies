@@ -14,4 +14,4 @@ Execute, via linha de comando, as seguintes instruções:
 
 # Modelo conceitual
 
-![alt text](/concept-model.png)
+![alt text](/src/main/resources/static/concept-model.png)
