@@ -15,6 +15,8 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.web.client.RestTemplate;
 
+import java.util.Set;
+
 @RunWith(SpringRunner.class)
 @ActiveProfiles("test")
 @SpringBootTest
@@ -38,11 +40,31 @@ public class ProducerServiceIntegrationTest {
     }
 
     @Test
-    public void getProducersFromServiceMustPass() {
+    public void getProducersMinAndMaxFromServiceMustPass() {
 
         final ProducerDto.WrapperDto testWrapperDto = new ProducerDto.WrapperDto(new ProducerDto("Joel Silver", 1990, 1991), new ProducerDto("Matthew Vaughn", 2002, 2015));
 
-        Assert.assertEquals(testWrapperDto,  producerService.findAll());
+        Assert.assertEquals(testWrapperDto, producerService.getIntervals(true, true));
+    }
+
+    @Test
+    public void getProducersMinFromServiceMustPass() {
+
+        final ProducerDto.WrapperDto testWrapperDto = new ProducerDto.WrapperDto();
+
+        testWrapperDto.setMin(Set.of(new ProducerDto("Joel Silver", 1990, 1991)));
+
+        Assert.assertEquals(testWrapperDto, producerService.getIntervals(true, null));
+    }
+
+    @Test
+    public void getProducersMaxFromServiceMustPass() {
+
+        final ProducerDto.WrapperDto testWrapperDto = new ProducerDto.WrapperDto();
+
+        testWrapperDto.setMax(Set.of(new ProducerDto("Matthew Vaughn", 2002, 2015)));
+
+        Assert.assertEquals(testWrapperDto, producerService.getIntervals(null, true));
     }
 
     @Test
@@ -50,8 +72,8 @@ public class ProducerServiceIntegrationTest {
 
         final ProducerDto.WrapperDto testWrapperDto = new ProducerDto.WrapperDto(new ProducerDto("Joel Silver", 1990, 1991), new ProducerDto("Matthew Vaughn", 2002, 2015));
 
-        Mockito.when(restTemplate.getForEntity("http://localhost:8080/producers", ProducerDto.WrapperDto.class)).thenReturn(new ResponseEntity<>(testWrapperDto, HttpStatus.OK));
+        Mockito.when(restTemplate.getForEntity("http://localhost:8080/producers?min=true&max=true", ProducerDto.WrapperDto.class)).thenReturn(new ResponseEntity<>(testWrapperDto, HttpStatus.OK));
 
-        Assert.assertEquals(testWrapperDto,  producerService.findAll());
+        Assert.assertEquals(testWrapperDto, producerService.getIntervals(true, true));
     }
 }

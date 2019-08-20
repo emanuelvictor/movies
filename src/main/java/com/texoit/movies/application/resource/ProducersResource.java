@@ -23,8 +23,8 @@ public class ProducersResource {
      * @return ProducerService.ProducerDto.WrapperDto
      */
     @GetMapping
-    public ProducerDto.WrapperDto findAll() {
-        return producerService.findAll();
+    public Object getIntervals(final Boolean min, final Boolean max) {
+        return producerService.getIntervals(min, max);
     }
 
 }

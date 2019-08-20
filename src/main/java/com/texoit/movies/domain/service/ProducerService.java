@@ -1,7 +1,5 @@
 package com.texoit.movies.domain.service;
 
-import com.texoit.movies.domain.entities.Indication;
-import com.texoit.movies.domain.entities.Movie;
 import com.texoit.movies.domain.entities.MovieProducer;
 import com.texoit.movies.domain.entities.Producer;
 import com.texoit.movies.domain.entities.dto.ProducerDto;
@@ -18,9 +16,39 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class ProducerService {
 
+    /**
+     *
+     */
     private final IProducerRepository producerRepository;
 
-    public ProducerDto.WrapperDto findAll() {
+    /**
+     *
+     * @param min Boolean
+     * @param max Boolean
+     * @return Object
+     */
+    public Object getIntervals(final Boolean min, final Boolean max) {
+
+        final Set<ProducerDto> producerDtos = this.getIntervals();
+
+        final ProducerDto.WrapperDto wrapperDto = new ProducerDto.WrapperDto();
+
+        if (min != null && min)
+            wrapperDto.setMin(Set.of(producerDtos.stream().sorted(Comparator.comparingInt(ProducerDto::getInterval)).collect(Collectors.toList()).get(0)));
+        if (max != null && max)
+            wrapperDto.setMax(Set.of(producerDtos.stream().sorted(Comparator.comparingInt(ProducerDto::getInterval)).collect(Collectors.toList()).get(producerDtos.size() - 1)));
+
+        if (min == null && max == null)
+            return this.getIntervals();
+        else
+            return wrapperDto;
+
+    }
+
+    /**
+     * @return List<Producer>
+     */
+    private Set<ProducerDto> getIntervals() {
 
         final List<Producer> producers = producerRepository.findAll();
         final Set<ProducerDto> producerDtos = new HashSet<>();
@@ -52,7 +80,7 @@ public class ProducerService {
 
         });
 
-        return new ProducerDto.WrapperDto(producerDtos.stream().sorted(Comparator.comparingInt(ProducerDto::getInterval)).collect(Collectors.toList()).get(0), producerDtos.stream().sorted(Comparator.comparingInt(ProducerDto::getInterval)).collect(Collectors.toList()).get(producerDtos.size() - 1));
+        return producerDtos;
 
     }
 
