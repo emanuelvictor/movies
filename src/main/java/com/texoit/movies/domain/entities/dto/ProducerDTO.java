@@ -8,12 +8,12 @@ import java.util.Set;
 
 @Data
 @NoArgsConstructor
-public class ProducerDto {
+public class ProducerDTO {
     private String producer;
     private int previousWin = 0;
     private int followingWin = 0;
 
-    public ProducerDto(final String producer, final int previousWin, final int followingWin) {
+    public ProducerDTO(final String producer, final int previousWin, final int followingWin) {
         this.producer = producer;
         this.previousWin = previousWin;
         this.followingWin = followingWin;
@@ -25,11 +25,11 @@ public class ProducerDto {
 
     @Data
     @NoArgsConstructor
-    public static class WrapperDto {
-        private Set<ProducerDto> min = new HashSet<>();
-        private Set<ProducerDto> max = new HashSet<>();
+    public static class WrapperDTO {
+        private Set<ProducerDTO> min = new HashSet<>();
+        private Set<ProducerDTO> max = new HashSet<>();
 
-        public WrapperDto(final ProducerDto min, final ProducerDto max) {
+        public WrapperDTO(final ProducerDTO min, final ProducerDTO max) {
             this.min.add(min);
             this.max.add(max);
         }

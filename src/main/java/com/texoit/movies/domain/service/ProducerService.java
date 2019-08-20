@@ -2,7 +2,7 @@ package com.texoit.movies.domain.service;
 
 import com.texoit.movies.domain.entities.MovieProducer;
 import com.texoit.movies.domain.entities.Producer;
-import com.texoit.movies.domain.entities.dto.ProducerDto;
+import com.texoit.movies.domain.entities.dto.ProducerDTO;
 import com.texoit.movies.domain.repository.IProducerRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -31,14 +31,14 @@ public class ProducerService {
      */
     public Object getIntervals(final Boolean min, final Boolean max) {
 
-        final Set<ProducerDto> producerDtos = this.getIntervals();
+        final Set<ProducerDTO> producerDTOS = this.getIntervals();
 
-        final ProducerDto.WrapperDto wrapperDto = new ProducerDto.WrapperDto();
+        final ProducerDTO.WrapperDTO wrapperDto = new ProducerDTO.WrapperDTO();
 
         if (min != null && min)
-            wrapperDto.setMin(Set.of(producerDtos.stream().sorted(Comparator.comparingInt(ProducerDto::getInterval)).collect(Collectors.toList()).get(0)));
+            wrapperDto.setMin(Set.of(producerDTOS.stream().sorted(Comparator.comparingInt(ProducerDTO::getInterval)).collect(Collectors.toList()).get(0)));
         if (max != null && max)
-            wrapperDto.setMax(Set.of(producerDtos.stream().sorted(Comparator.comparingInt(ProducerDto::getInterval)).collect(Collectors.toList()).get(producerDtos.size() - 1)));
+            wrapperDto.setMax(Set.of(producerDTOS.stream().sorted(Comparator.comparingInt(ProducerDTO::getInterval)).collect(Collectors.toList()).get(producerDTOS.size() - 1)));
 
         if (min == null && max == null)
             return this.getIntervals();
@@ -50,10 +50,10 @@ public class ProducerService {
     /**
      * @return List<Producer>
      */
-    private Set<ProducerDto> getIntervals() {
+    private Set<ProducerDTO> getIntervals() {
 
         final List<Producer> producers = producerRepository.findAll();
-        final Set<ProducerDto> producerDtos = new HashSet<>();
+        final Set<ProducerDTO> producerDTOS = new HashSet<>();
 
         producers.forEach(producer -> {
 
@@ -68,7 +68,7 @@ public class ProducerService {
 
             if (movieProducers.size() > 1)
                 for (int i = 0; i < movieProducers.size(); i++) {
-                    final ProducerDto producerDto = new ProducerDto(producer.getName(), movieProducers.get(0).getMovie().getIndications().get(0).getPremium().getYear(), movieProducers.get(1).getMovie().getIndications().get(0).getPremium().getYear());
+                    final ProducerDTO producerDto = new ProducerDTO(producer.getName(), movieProducers.get(0).getMovie().getIndications().get(0).getPremium().getYear(), movieProducers.get(1).getMovie().getIndications().get(0).getPremium().getYear());
                     if (i + 1 != movieProducers.size())
                         if (movieProducers.get(i).getMovie().getIndications().get(0).getPremium().getYear() - movieProducers.get(i + 1).getMovie().getIndications().get(0).getPremium().getYear() < producerDto.getInterval()) {
                             producerDto.setPreviousWin(movieProducers.get(i).getMovie().getIndications().get(0).getPremium().getYear());
@@ -76,13 +76,13 @@ public class ProducerService {
                         }
 
                     if (producerDto.getInterval() > 0)
-                        producerDtos.add(producerDto);
+                        producerDTOS.add(producerDto);
                 }
 
 
         });
 
-        return producerDtos;
+        return producerDTOS;
 
     }
 
